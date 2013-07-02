@@ -573,7 +573,7 @@ gather(Runner, Samples, Control, Report, Iter, T0, Timeout, Ds0, Stats0)
     if Iter*MinRuntime*?TICKS_PER_SECOND < 20 ->
             %% all runtimes must be at least 20 times the clock resolution,
             %% otherwise adjust number of iterations upwards and retry
-            Iter1 = max(Iter+1, (20/(MinRuntime*?TICKS_PER_SECOND))*1.1),
+            Iter1 = max(Iter+1, round((20/(MinRuntime*?TICKS_PER_SECOND))*1.1)),
 	    gather(Runner, Samples, Control, Report, Iter1, T0, Timeout,
                    Ds, Stats0);
        true ->
