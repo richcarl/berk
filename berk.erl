@@ -617,7 +617,7 @@ repeat(_, _) ->
 %% Statistics for a series are considered valid if (unless we have just a
 %% single sample point) there must be a nonzero range between min and max,
 %% and the relative maximum absolute deviation must be less than 35%.
-is_valid_stats(Iter, Ss) ->
+is_valid_stats(_Iter, Ss) ->
     Samples = length(proplists:get_value(?TAG_DATA, Ss)),
     Min = proplists:get_value(?TAG_MIN, Ss),
     Max = proplists:get_value(?TAG_MAX, Ss),
@@ -866,7 +866,7 @@ rndbyte() ->
 
 rndbit() ->
     timer:sleep(1),
-    element(3, erlang:now()) rem 2.
+    element(3, os:timestamp()) rem 2.
 
 rndbits(N) ->
     [rndbit() || _<-lists:seq(1,N)].
@@ -874,7 +874,7 @@ rndbits(N) ->
 %% convert to png with 'pnmtopng rnd.pbm > rnd.png'
 rndpbm() ->
     W = 256,
-    H = 128,
+    H = 192,
     {ok, FD} = file:open("rnd.pbm", [write]),
     io:format(FD, "P4\n~w ~w\n", [W, H]),
     _ = [io:fwrite(FD, "~s", [[rndbyte()||_<-lists:seq(1,W div 8)]])
